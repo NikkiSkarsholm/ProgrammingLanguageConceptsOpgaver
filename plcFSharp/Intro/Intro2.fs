@@ -49,6 +49,9 @@ let e7 = Prim("min", Var "a", CstI 7);;
 
 let evalE7 = eval2 e7 env ;;
 
+let eif = If (Var "a", CstI 11, CstI 22);;
+let evaleif = eval2 eif env;;
+
 
 (* Evaluation within an environment *)
 (*
@@ -75,6 +78,10 @@ let rec eval2 e (env : (string * int) list) : int =
     match e with
     | CstI i            -> i
     | Var x             -> lookup env x 
+    | If (e1, e2, e3)   ->
+        if eval2 e1 env <> 0 
+        then eval2 e2 env 
+        else eval2 e3 env 
     | Prim(ope, e1, e2) ->
         let i1 = eval2 e1 env 
         let i2 = eval2 e2 env
@@ -91,7 +98,7 @@ let rec eval2 e (env : (string * int) list) : int =
         | "==" -> if i1 = i2 
                     then 1 
                     else 0
-        | _ -> failwith "unknown primitive"
+        | _ -> failwith "unknown primitive";;
 
 let e1v  = eval e1 env;;
 let e2v1 = eval e2 env;;
