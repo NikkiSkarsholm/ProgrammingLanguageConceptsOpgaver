@@ -31,6 +31,23 @@ let e2 = Prim("+", CstI 3, Var "a");;
 
 let e3 = Prim("+", Prim("*", Var "b", CstI 9), Var "a");;
 
+//example expression for exercise
+let e4 = Prim("==", Prim("+", CstI 1, CstI 1), CstI 2);;
+
+let evalE4 = eval e4 env;;
+
+let e5 = Prim("==", Prim("+", CstI 1, CstI 1), CstI 3);;
+
+let evalE5 = eval e5 env;;
+
+let e6 = Prim("max", CstI 5, CstI 7);;
+
+let evalE6 = eval e6 env ;;
+
+let e7 = Prim("min", Var "a", CstI 7);;
+
+let evalE7 = eval e7 env ;;
+
 
 (* Evaluation within an environment *)
 
@@ -40,7 +57,7 @@ let rec eval e (env : (string * int) list) : int =
     | Var x             -> lookup env x 
     | Prim("+", e1, e2) -> eval e1 env + eval e2 env
     | Prim("*", e1, e2) -> eval e1 env * eval e2 env
-    | Prim("-", e1, e2) -> eval e1 env - eval e2 
+    | Prim("-", e1, e2) -> eval e1 env - eval e2 env
     | Prim("max", e1, e2) -> if eval e1 env > eval e2 env 
                                 then eval e1 env 
                                 else eval e2 env
