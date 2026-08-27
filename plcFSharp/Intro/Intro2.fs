@@ -40,7 +40,16 @@ let rec eval e (env : (string * int) list) : int =
     | Var x             -> lookup env x 
     | Prim("+", e1, e2) -> eval e1 env + eval e2 env
     | Prim("*", e1, e2) -> eval e1 env * eval e2 env
-    | Prim("-", e1, e2) -> eval e1 env - eval e2 env
+    | Prim("-", e1, e2) -> eval e1 env - eval e2 
+    | Prim("max", e1, e2) -> if eval e1 env > eval e2 env 
+                                then eval e1 env 
+                                else eval e2 env
+    | Prim("min", e1, e2) -> if eval e1 env < eval e2 env 
+                                then eval e1 env 
+                                else eval e2 env
+    | Prim("==", e1, e2) -> if eval e1 env = eval e2 env
+                                then 1
+                                else 0
     | Prim _            -> failwith "unknown primitive";;
 
 let e1v  = eval e1 env;;
