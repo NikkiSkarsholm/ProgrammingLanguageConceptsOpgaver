@@ -15,3 +15,15 @@ type aexpr =
 let e1 = Sub(Var "v", Add(Var "w", Var "z"));;
 let e2 = Mul(CstI 2, Sub(Var "v", Add(Var "w", Var "z")));;
 let e3 = Add(Var "x", Add(Var "y", Add(Var "z", Var "v")));;
+
+// III
+let rec fmt a = 
+    match a with 
+    | CstI i -> string i
+    | Var v -> v
+    | Add (a1, a2) -> 
+        " (" + fmt a1 + " + " + fmt a2 + ") " 
+    | Sub (a1, a2) -> 
+        " (" + fmt a1 + " - " + fmt a2 + ") " 
+    | Mul (a1, a2) -> 
+        " (" + fmt a1 + " * " + fmt a2 + ") " ;;
