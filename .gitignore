@@ -136,3 +136,4 @@ plcFSharp/Virtual/StringConcatSpeed/counter.csv
 plcFSharp/Virtual/Square/*.jvmbytecode
 plcFSharp/Virtual/Square/*.il
 
+**/.idea
