@@ -13,6 +13,12 @@ type expr =
   | Let of string * expr * expr
   | Prim of string * expr * expr;;
 
+type expr2 = 
+  | CstI of int
+  | Var of string
+  | Let of (string * expr) list * expr
+  | Prim of string * expr * expr;;
+
 (* Some closed expressions: *)
 
 let e0 = Prim("+", CstI 17, Prim("+", CstI 5, CstI 7));;
@@ -50,7 +56,8 @@ let rec eval e (env : (string * int) list) : int =
     match e with
     | CstI i            -> i
     | Var x             -> lookup env x 
-    | Let(x, erhs, ebody) -> 
+    | Let(decrarations, ebody) -> 
+		// TODO the rest
       let xval = eval erhs env
       let env1 = (x, xval) :: env 
       eval ebody env1
