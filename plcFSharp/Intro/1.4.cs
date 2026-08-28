@@ -9,9 +9,12 @@ Console.WriteLine(e.toString());
 // II
 Aexpr e1 = new Sub( new Var("v"), new Add( new Var("w"), new Var("z")));
 Console.WriteLine(e1.toString());
-//Aexpr e2 = new Mul(CstI 2, Sub(Var "v", Add(Var "w", Var "z")));
-//Aexpr e3 = new Add(Var "x", Add(Var "y", Add(Var "z", Var "v")));
 
+Aexpr e2 = new Mul(new CstI (2), new Sub( new Var ("v"), new Add( new Var ("w"), new Var ("z"))));
+Console.WriteLine(e2.toString());
+
+Aexpr e3 = new Add( new Var ("x"),new Add(new Var ("y"), new Add( new Var ("z"), new Var ("v"))));
+Console.WriteLine(e3.toString());
 abstract class Aexpr
 {
     public abstract string toString();
