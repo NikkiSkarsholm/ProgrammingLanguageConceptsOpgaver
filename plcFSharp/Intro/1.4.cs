@@ -1,8 +1,16 @@
 using System.Formats.Asn1;
 using System.Runtime.InteropServices.Marshalling;
 
+// I
 Aexpr e = new Add(new CstI(17), new Var("z"));
 Console.WriteLine(e.toString());
+
+
+// II
+Aexpr e1 = new Sub( new Var("v"), new Add( new Var("w"), new Var("z")));
+Console.WriteLine(e1.toString());
+//Aexpr e2 = new Mul(CstI 2, Sub(Var "v", Add(Var "w", Var "z")));
+//Aexpr e3 = new Add(Var "x", Add(Var "y", Add(Var "z", Var "v")));
 
 abstract class Aexpr
 {
