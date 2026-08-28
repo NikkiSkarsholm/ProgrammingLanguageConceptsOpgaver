@@ -62,3 +62,20 @@ let rec simplify a =
 
 // V
 // TODO 
+let rec def exp var = 
+    match exp with 
+    | CstI i -> CstI i
+    | Var v when v = var -> CstI 1
+    | Var v -> Var v 
+    | Add (CstI _, CstI _) -> Add(CstI 0, CstI 0)
+    | Add (CstI _, a2) -> Add(CstI 0, def a2 var)
+    | Add (a1, CstI _) -> Add(def a1 var , CstI 0) 
+    | Add (a1, a2) -> Add(def a1 var , def a2 var) 
+    | Sub (CstI _, CstI _) -> Sub(CstI 0, CstI 0)
+    | Sub (CstI _, a2) -> Sub(CstI 0, def a2 var)
+    | Sub (a1, CstI _) -> Sub(def a1 var , CstI 0) 
+    | Sub (a1, a2) -> Sub(def a1 var , def a2 var) 
+    | Mul (a1, a2) -> Mul(def a1 var , def a2 var) 
+
+let test1 = Sub(Mul(CstI 2, Var "x"), Add(CstI 5, Var "x"))
+let test2 = Sub(Mul(Var "x", Var "x"), Add(CstI 5, Var "x")) // This code does not work when x's are multiplied together
