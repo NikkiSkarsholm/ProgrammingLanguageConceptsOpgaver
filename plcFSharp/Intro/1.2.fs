@@ -59,3 +59,6 @@ let rec simplify a =
         if a1s = a1 && a2s = a2 
         then Sub(a1s, a2s)
         else simplify (Sub(a1s, a2s))
+
+// V
+// TODO 
