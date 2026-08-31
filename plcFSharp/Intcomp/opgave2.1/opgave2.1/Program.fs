@@ -46,7 +46,8 @@ let rec lookup env x =
     match env with 
     | []        -> failwith (x + " not found")
     | (y, v)::r -> if x=y then v else lookup r x;;
-
+    
+// 2.1
 let rec eval e (env : (string * int) list) : int =
     match e with
     | CstI i            -> i
@@ -215,13 +216,25 @@ let rec minus (xs, ys) =
 
 (* Find all variables that occur free in expression e *)
 
+// 2.2
 let rec freevars e : string list =
     match e with
     | CstI i -> []
     | Var x  -> [x]
-    | Let(x, erhs, ebody) -> 
-          union (freevars erhs, minus (freevars ebody, [x]))
+    | Let(declarations, ebody) ->
+          let knownVars, freeVars = (List.fold (fun (knownVars,freeVars) (name, expr) ->
+              let newFreeVars = union (freeVars, minus (freevars expr, knownVars))
+              let newKnowVars = union ([name], knownVars)
+              (newKnowVars, newFreeVars)
+              ) ([], []) declarations)
+          
+          union (freeVars, minus (freevars ebody, knownVars))
     | Prim(ope, e1, e2) -> union (freevars e1, freevars e2);;
+    
+let hasFree = Let ( ["x1", Prim("+", CstI 5, CstI 7)], Prim("+", Var "x1", Var "x2"))
+let hasFree2 = Let (["x1", Prim("*", CstI 3, Var "x2"); ("x2", CstI 5)], Prim("-", Var "x2", Var "x1"))
+let noFree = Let ([("x2", CstI 5); "x1", Prim("*", CstI 3, Var "x2")], Prim("-", Var "x2", Var "x1"))
+
 
 (* Alternative definition of closed *)
 
