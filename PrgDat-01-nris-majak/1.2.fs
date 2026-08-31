@@ -61,7 +61,6 @@ let rec simplify a =
         else simplify (Sub(a1s, a2s))
 
 // V
-// TODO 
 let rec def exp var = 
     match exp with 
     | CstI i -> CstI i
