@@ -249,14 +249,25 @@ let rec getindex vs x =
 
 (* Compiling from expr to texpr *)
 
+//2.3
 let rec tcomp (e : expr) (cenv : string list) : texpr =
     match e with
     | CstI i -> TCstI i
     | Var x  -> TVar (getindex cenv x)
-    | Let(x, erhs, ebody) -> 
-      let cenv1 = x :: cenv 
-      TLet(tcomp erhs cenv, tcomp ebody cenv1)
+    | Let(declarations, ebody) -> 
+      match declarations with
+        | head :: [] ->
+             let cenv1 = (fst head) :: cenv
+             TLet(tcomp (snd head) cenv, tcomp ebody cenv1)
+        | head :: tail ->
+             let cenv1 = (fst head) :: cenv
+             TLet(tcomp (snd head) cenv, tcomp (Let (tail, ebody)) cenv1)
+        | [] -> tcomp ebody cenv 
     | Prim(ope, e1, e2) -> TPrim(ope, tcomp e1 cenv, tcomp e2 cenv);;
+    
+let e3 = Let([("a", CstI 3); ("b", CstI 4)], Prim("+", Var "a", Var "b"))
+
+let Te3 = tcomp e3 []
 
 (* Evaluation of target expressions with variable indexes.  The
    run-time environment renv is a list of variable values (ints).  *)
