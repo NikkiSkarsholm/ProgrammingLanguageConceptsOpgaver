@@ -34,4 +34,5 @@ Let NAME EQ LPAR CSTINT RPAR  IN NAME PLUS CSTINT TIMES CSTINT End eof
 
 
 **3.4**
+![Derivation tree](3-4.drawio.png)
 
