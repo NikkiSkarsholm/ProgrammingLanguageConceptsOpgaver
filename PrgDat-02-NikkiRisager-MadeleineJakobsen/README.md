@@ -18,4 +18,7 @@ The exercise askes us to modify the Machine.java file to support reading from a 
 **3.2**
 a?(ba|b)*
 
+The NFA and DFA can be found in the file 'NFAogDFA.png'
+![NFA og DFA](NFAogDFA.png )
+
 
