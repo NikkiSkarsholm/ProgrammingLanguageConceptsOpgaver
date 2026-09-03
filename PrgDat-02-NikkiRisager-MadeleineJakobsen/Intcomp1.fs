@@ -363,7 +363,7 @@ type sinstr =
   | SPop                                (* pop value/unbind var   *)
   | SSwap;;                             (* exchange top and next  *)
 
-
+// 2.4
 let sinstrToIntList sinstr =
     match sinstr with 
     | SCstI i -> [0;i]
