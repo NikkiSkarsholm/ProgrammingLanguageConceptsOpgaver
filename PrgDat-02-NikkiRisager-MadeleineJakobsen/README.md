@@ -14,3 +14,8 @@ Added example 'instruction' to test if our function works.
 **2.5**
 Changed the assemble function to take a filename and print the list of ints to the file.
 The exercise askes us to modify the Machine.java file to support reading from a file, however it already does so by default so we have not included the file
+
+**3.2**
+a?(ba|b)*
+
+
