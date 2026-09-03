@@ -362,6 +362,26 @@ type sinstr =
   | SMul                                (* pop args, push product *)
   | SPop                                (* pop value/unbind var   *)
   | SSwap;;                             (* exchange top and next  *)
+
+
+let sinstrToIntList sinstr =
+    match sinstr with 
+    | SCstI i -> [0;i]
+    | SVar i -> [1;i]
+    | SAdd -> [2]
+    | SSub -> [3]
+    | SMul -> [4]
+    | SPop -> [5]
+    | SSwap -> [6]
+
+
+let rec assemble list = 
+    match list with
+    | [] -> []
+    | head :: tail -> sinstrToIntList head @ assemble tail  
+
+let instruction = [SCstI 5; SCstI 2 ; SAdd]
+
  
 let rec seval (inss : sinstr list) (stack : int list) =
     match (inss, stack) with
