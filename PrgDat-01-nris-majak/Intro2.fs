@@ -19,7 +19,7 @@ let cvalue = lookup env "c";;
 
 
 (* Object language expressions with variables *)
-
+// 1.1 IV
 type expr = 
   | CstI of int
   | Var of string
@@ -54,6 +54,8 @@ let evaleif = eval2 eif env;;
 
 
 (* Evaluation within an environment *)
+
+// 1.1 I
 (*
 let rec eval e (env : (string * int) list) : int =
     match e with
@@ -73,7 +75,7 @@ let rec eval e (env : (string * int) list) : int =
                                 else 0
     | Prim _            -> failwith "unknown primitive";; *)
 
-
+//1.1 III
 let rec eval2 e (env : (string * int) list) : int =
     match e with
     | CstI i            -> i

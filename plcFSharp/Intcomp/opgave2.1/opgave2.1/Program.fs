@@ -1,4 +1,4 @@
-(* Programming language concepts, 2026-02-20 *)
+﻿(* Programming language concepts, 2026-02-20 *)
 
 (* Evaluation, checking, and compilation of object language expressions *)
 (* Stack machines for expression evaluation                             *) 
@@ -10,18 +10,13 @@ module Intcomp1
 type expr = 
   | CstI of int
   | Var of string
-  | Let of string * expr * expr
-  | Prim of string * expr * expr;;
-
-type expr2 = 
-  | CstI of int
-  | Var of string
   | Let of (string * expr) list * expr
   | Prim of string * expr * expr;;
 
-(* Some closed expressions: *)
 
-let e0 = Prim("+", CstI 17, Prim("+", CstI 5, CstI 7));;
+(* Some closed expressions: *)
+(*
+let e0 = Prim("+", CstI 17, Prim("+", CstI 5, CstI 7))
 let e1 = Let("z", CstI 17, Prim("+", Var "z", Var "z"));;
 
 let e2 = Let("z", CstI 17, 
@@ -42,7 +37,7 @@ let e7 = Let("z", CstI 3, Let("y", Prim("+", Var "z", CstI 1), Prim("+", Var "z"
 let e8 = Let("z", Let("x", CstI 4, Prim("+", Var "x", CstI 5)), Prim("*", Var "z", CstI 2))
 let e9 = Let("z", CstI 3, Let("y", Prim("+", Var "z", CstI 1), Prim("+", Var "x", Var "y")))
 let e10 = Let("z", Prim("+", Let("x", CstI 4, Prim("+", Var "x", CstI 5)), Var "x"), Prim("*", Var "z", CstI 2))
-
+*)
 (* ---------------------------------------------------------------------- *)
 
 (* Evaluation of expressions with variables and bindings *)
@@ -51,24 +46,28 @@ let rec lookup env x =
     match env with 
     | []        -> failwith (x + " not found")
     | (y, v)::r -> if x=y then v else lookup r x;;
-
+    
+// 2.1
 let rec eval e (env : (string * int) list) : int =
     match e with
     | CstI i            -> i
     | Var x             -> lookup env x 
-    | Let(decrarations, ebody) -> 
-        
-		// TODO the rest
-      let xval = eval erhs env
-      let env1 = (x, xval) :: env 
-      eval ebody env1
+    | Let(declarations, ebody) ->
+      List.fold (fun acc (name , expression) ->
+          let value = eval expression acc
+          (name, value) :: acc
+          ) env declarations |> eval ebody  
     | Prim("+", e1, e2) -> eval e1 env + eval e2 env
     | Prim("*", e1, e2) -> eval e1 env * eval e2 env
     | Prim("-", e1, e2) -> eval e1 env - eval e2 env
     | Prim _            -> failwith "unknown primitive";;
+//([("x1", ...); ("x2", ...)], Prim("+", Var "x1", Var "x2"))
+//
+let e1 = Let([("x1", Prim("+", CstI 5, CstI 7)); ("x2", Prim("*", Var "x1", CstI 2))], Prim("+", Var "x1", Var "x2"))
+
 
 let run e = eval e [];;
-let res = List.map run [e1;e2;e3;e4;e5;e7]  (* e6 has free variables *)
+//let res = List.map run [e1;e2;e3;e4;e5;e7]  (* e6 has free variables *)
 
 
 (* ---------------------------------------------------------------------- *)
@@ -217,13 +216,25 @@ let rec minus (xs, ys) =
 
 (* Find all variables that occur free in expression e *)
 
+// 2.2
 let rec freevars e : string list =
     match e with
     | CstI i -> []
     | Var x  -> [x]
-    | Let(x, erhs, ebody) -> 
-          union (freevars erhs, minus (freevars ebody, [x]))
+    | Let(declarations, ebody) ->
+          let knownVars, freeVars = (List.fold (fun (knownVars,freeVars) (name, expr) ->
+              let newFreeVars = union (freeVars, minus (freevars expr, knownVars))
+              let newKnowVars = union ([name], knownVars)
+              (newKnowVars, newFreeVars)
+              ) ([], []) declarations)
+          
+          union (freeVars, minus (freevars ebody, knownVars))
     | Prim(ope, e1, e2) -> union (freevars e1, freevars e2);;
+    
+let hasFree = Let ( ["x1", Prim("+", CstI 5, CstI 7)], Prim("+", Var "x1", Var "x2"))
+let hasFree2 = Let (["x1", Prim("*", CstI 3, Var "x2"); ("x2", CstI 5)], Prim("-", Var "x2", Var "x1"))
+let noFree = Let ([("x2", CstI 5); "x1", Prim("*", CstI 3, Var "x2")], Prim("-", Var "x2", Var "x1"))
+
 
 (* Alternative definition of closed *)
 
@@ -251,14 +262,25 @@ let rec getindex vs x =
 
 (* Compiling from expr to texpr *)
 
+//2.3
 let rec tcomp (e : expr) (cenv : string list) : texpr =
     match e with
     | CstI i -> TCstI i
     | Var x  -> TVar (getindex cenv x)
-    | Let(x, erhs, ebody) -> 
-      let cenv1 = x :: cenv 
-      TLet(tcomp erhs cenv, tcomp ebody cenv1)
+    | Let(declarations, ebody) -> 
+      match declarations with
+        | head :: [] ->
+             let cenv1 = (fst head) :: cenv
+             TLet(tcomp (snd head) cenv, tcomp ebody cenv1)
+        | head :: tail ->
+             let cenv1 = (fst head) :: cenv
+             TLet(tcomp (snd head) cenv, tcomp (Let (tail, ebody)) cenv1)
+        | [] -> tcomp ebody cenv 
     | Prim(ope, e1, e2) -> TPrim(ope, tcomp e1 cenv, tcomp e2 cenv);;
+    
+let e3 = Let([("a", CstI 3); ("b", CstI 4)], Prim("+", Var "a", Var "b"))
+
+let Te3 = tcomp e3 []
 
 (* Evaluation of target expressions with variable indexes.  The
    run-time environment renv is a list of variable values (ints).  *)
