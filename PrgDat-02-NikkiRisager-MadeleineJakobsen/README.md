@@ -25,6 +25,7 @@ Main ->
 Expr eof -> 
 Let NAME EQ Expr IN Expr End eof  ->
 Let NAME EQ Expr IN Expr TIMES CSTINT End eof ->
+Let NAME EQ Expr IN Expr PLUS Expr TIMES Expr End eof ->
 Let NAME EQ Expr IN Expr PLUS Expr TIMES CSTINT End eof ->
 Let NAME EQ Expr IN Expr PLUS CSTINT TIMES CSTINT End eof ->
 Let NAME EQ Expr IN NAME PLUS CSTINT TIMES CSTINT End eof ->
