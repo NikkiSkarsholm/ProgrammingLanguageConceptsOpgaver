@@ -374,11 +374,17 @@ let sinstrToIntList sinstr =
     | SPop -> [5]
     | SSwap -> [6]
 
+let intsToFile (inss : int list) (fname : string) = 
+    let text = String.concat " " (List.map string inss)
+    System.IO.File.WriteAllText(fname, text);;
 
-let rec assemble list = 
-    match list with
-    | [] -> []
-    | head :: tail -> sinstrToIntList head @ assemble tail  
+// changed after 2.5
+let assemble list fileName =
+    let rec toList list =  
+        match list with
+        | [] -> []
+        | head :: tail -> sinstrToIntList head @ toList tail  
+    intsToFile (toList list) fileName
 
 let instruction = [SCstI 5; SCstI 2 ; SAdd]
 
@@ -427,9 +433,6 @@ let s5 = scomp e5 [];;
 
 (* Output the integers in list inss to the text file called fname: *)
 
-let intsToFile (inss : int list) (fname : string) = 
-    let text = String.concat " " (List.map string inss)
-    System.IO.File.WriteAllText(fname, text);;
 
 
 
