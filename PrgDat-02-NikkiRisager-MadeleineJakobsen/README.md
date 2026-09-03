@@ -17,6 +17,8 @@ The exercise askes us to modify the Machine.java file to support reading from a 
 
 **3.2**
 a?(ba|b)*
+The NFA and DFA can be found in the file 'NFAogDFA.png'
+![NFA og DFA](NFAogDFA.png )
 
 **3.3**
 Main -> 
@@ -29,6 +31,6 @@ Let NAME EQ Expr IN NAME PLUS CSTINT TIMES CSTINT End eof ->
 Let NAME EQ LPAR Expr RPAR  IN NAME PLUS CSTINT TIMES CSTINT End eof ->
 Let NAME EQ LPAR CSTINT RPAR  IN NAME PLUS CSTINT TIMES CSTINT End eof
 
-**3.4**
 
+**3.4**
 
