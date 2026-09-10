@@ -19,6 +19,9 @@ let keyword s =
     | "let" -> LET
     | "in"  -> IN
     | "end" -> END
+    | "if" -> IF        (* Exercise 3.7 : added this line*)
+    | "then" -> THEN    (* Exercise 3.7 : added this line*)
+    | "else" -> ELSE    (* Exercise 3.7 : added this line*)
     | _     -> NAME s
 }
 
