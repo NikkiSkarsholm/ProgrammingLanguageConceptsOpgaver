@@ -17,3 +17,18 @@ We generated the lexer and parser and ran these examples:
 - run (fromString "let y = 7 in y + 2 end");; => 9
 - run (fromString "let f x = x + 7 in f 2 end");; => 9 
 
+**Excercise 4.2**
+We have written the followign tests and here is the results:
+- run (fromString "let sum n = if 0 < n then n + sum (n-1) else 0 in sum 1000 end") => 500500
+- run (fromString "let pow exp = if exp = 0 then 1 else 3 * pow (exp-1) in pow 8 end") => 6561
+- run (fromString "let pow exp =
+  if exp = 0
+  then 1
+  else 3 * pow (exp-1)
+  in
+  let sumPow xp =
+  if xp < 0
+  then 0
+  else pow xp + sumPow (xp-1)
+  in sumPow 11 end end");; => 265720 (We had to format it on one line for the terminal to accept it. You might have to do the same :D)
+

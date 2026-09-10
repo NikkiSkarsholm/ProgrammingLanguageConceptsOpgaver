@@ -76,7 +76,80 @@ let ex5 = fromString
 
 
 (*
-"let sum n = if n > 0 then n + sum (n-1) else 0 in sum 1000 "
+run (fromString "let sum n = if n > 0 then n + sum (n-1) else 0 in sum 1000 end")
+
+
+"let pow exp =
+  if exp = 0
+  then 1
+  else 3 * pow (exp-1)
+  in pow 8 end"
+  
+  run (fromString "let pow exp = if exp = 0 then 1 else 3 * pow (exp-1) in pow 8 end")
+  
+run (fromString "let pow exp =
+  if exp = 0
+  then 1
+  else 3 * pow (exp-1)
+  in
+  let sumPow xp =
+  if xp < 0
+  then 0
+  else pow xp + sumPow (xp-1)
+  in sumPow 11 end end");;
+  
+  run (fromString "let pow exp = if exp = 0 then 1 else 3 * pow (exp-1) in let sumPow xp = if exp < 0 then 0 else pow xp + sumPow (xp-1)  in sumPow 11 end end");;
+  
+  
+run (fromString "let pow exp =
+  if exp = 0
+  then 1
+  else 3 * pow (exp-1)
+  in
+  let sumPow xp =
+  if xp < 0
+  then 0
+  else pow xp + sumPow (xp-1)
+  in sumPow 11 end end");;
+*)
+
+let rec pow exp =
+  if exp = 0
+  then 1
+  else 3 * pow (exp-1)
+  
+let rec sumPow exp =
+  if exp < 0  
+  then 0
+  else pow exp + sumPow (exp-1)
+  
+let rec powSum bas =
+  let rec pow exp =
+    if exp = 0
+    then 1
+    else bas * pow (exp-1)
+  
+  if bas <= 0
+  then 0
+  else pow (8) + powSum (bas - 1)
+  
+(*
+run (fromString "let powSum bas = let pow exp = if exp = 0 then 1 else bas * pow (exp - 1) in  if bas <= 0 then 0 else pow 8 + powSum (bas - 1) end in powSum 10 end");;
+
+run (fromString "let powSum bas =
+    let pow exp =
+      if exp = 0
+      then 1
+      else bas * pow (exp - 1)
+    in 
+      if bas = 0
+      then 0
+      else pow 8 + powSum (bas - 1)
+    end
+  in
+    powSum 10
+  end");;
+
 
 *)
 
