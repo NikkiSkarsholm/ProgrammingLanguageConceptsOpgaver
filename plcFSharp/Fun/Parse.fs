@@ -70,3 +70,24 @@ let ex5 = fromString
                  in fib 25 
                  end
               end";;
+            
+
+
+
+
+(*
+"let sum n = if n > 0 then n + sum (n-1) else 0 in sum 1000 "
+
+*)
+
+(*
+let rec sum n =
+  if n > 0
+  then n+sum(n-1)
+  else 0
+sum 1000
+
+*)
+
+let rec Sum n =
+  n-1

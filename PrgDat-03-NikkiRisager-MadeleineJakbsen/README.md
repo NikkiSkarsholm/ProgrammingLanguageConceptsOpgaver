@@ -10,3 +10,10 @@ Added the function in parse.fs.
 When loading the lexer and parser into F# interactive. Remember to include Expr.fs 
 Example:  dotnet fsi -r bin/Debug/net10.0/FsLexYacc.Runtime.dll  Absyn.fs ExprPar.fs ExprLex.fs Expr.fs Parse.fs
 
+
+**Exercise 4.1** 
+We generated the lexer and parser and ran these examples:
+- run (fromString "5+7");; => 12
+- run (fromString "let y = 7 in y + 2 end");; => 9
+- run (fromString "let f x = x + 7 in f 2 end");; => 9 
+
