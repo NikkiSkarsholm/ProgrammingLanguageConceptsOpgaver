@@ -8,6 +8,7 @@ open System.IO
 open System.Text
 open FSharp.Text
 open Absyn
+open Expr
 
 (* Plain parsing from a string, with poor error reporting *)
 
@@ -34,3 +35,9 @@ let fromFile (filename : string) =
 
 // Example
 let ex = fromString "2 + 3 * 4"
+
+// Exercise 3.6
+// We used the two already defined functions by passing the result of fromString to scomp.
+let compString str = scomp (fromString str) [] 
+
+
