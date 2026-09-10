@@ -24,8 +24,11 @@ let rec lookup env x =
 
 type value = 
   | Int of int
-  | Closure of string * string * expr * value env       (* (f, x, fBody, fDeclEnv) *)
+  | Closure of string * string list * expr * value env       (* (f, x, fBody, fDeclEnv) *) (*Exercise 4.3 added a string list :)*)
 
+(*Exercise 4.3*)
+(*Changed the Call case to handle a list of variables names and variable expressions,
+This was done by adding a name and corresponding eval-ed expression to the environment for each variable, using a fold function*)
 let rec eval (e : expr) (env : value env) : int =
     match e with 
     | CstI i -> i
@@ -52,18 +55,21 @@ let rec eval (e : expr) (env : value env) : int =
       let b = eval e1 env
       if b<>0 then eval e2 env
       else eval e3 env
-    | Letfun(f, x, fBody, letBody) -> 
-      let bodyEnv = (f, Closure(f, x, fBody, env)) :: env 
+    | Letfun(f, args, fBody, letBody) -> 
+      let bodyEnv = (f, Closure(f, args, fBody, env)) :: env 
       eval letBody bodyEnv
-    | Call(Var f, eArg) -> 
+    | Call(Var f, eArgs) -> 
       let fClosure = lookup env f
       match fClosure with
-      | Closure (f, x, fBody, fDeclEnv) ->
-        let xVal = Int(eval eArg env)
-        let fBodyEnv = (x, xVal) :: (f, fClosure) :: fDeclEnv
-        eval fBody fBodyEnv
+      | Closure (f, args, fBody, fDeclEnv) ->
+        List.zip args eArgs |>                                (*this is the start of our changes*)
+        List.fold (fun acc (name, expr) -> (name, Int(eval expr env)) :: acc ) ((f, fClosure) :: fDeclEnv) |> 
+        eval fBody 
       | _ -> failwith "eval Call: not a function"
     | Call _ -> failwith "eval Call: not first-order function"
+    
+    
+let exp = Letfun ("add", ["a";"b"], Prim("+", Var "a", Var "b"), Call (Var "add", [CstI 10; CstI 5]))
 
 (* Evaluate in empty environment: program must have no free variables: *)
 
