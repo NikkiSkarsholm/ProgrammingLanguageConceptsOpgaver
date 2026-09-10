@@ -21,7 +21,8 @@ We generated the lexer and parser and ran these examples:
 We have written the followign tests and here is the results:
 - run (fromString "let sum n = if 0 < n then n + sum (n-1) else 0 in sum 1000 end") => 500500
 - run (fromString "let pow exp = if exp = 0 then 1 else 3 * pow (exp-1) in pow 8 end") => 6561
-- run (fromString "let pow exp =
+- ```
+  run (fromString "let pow exp =
   if exp = 0
   then 1
   else 3 * pow (exp-1)
@@ -30,5 +31,24 @@ We have written the followign tests and here is the results:
   if xp < 0
   then 0
   else pow xp + sumPow (xp-1)
-  in sumPow 11 end end");; => 265720 (We had to format it on one line for the terminal to accept it. You might have to do the same :D)
+  in sumPow 11 end end");; 
+  ```
+  => 265720 (We had to format it on one line for the terminal to accept it. You might have to do the same :D)
+- ``` 
+  run (fromString "let powSum bas =
+    let pow exp =
+      if exp = 0
+      then 1
+      else bas * pow (exp - 1)
+    in 
+      if bas = 0
+      then 0
+      else pow 8 + powSum (bas - 1)
+    end
+  in
+    powSum 10
+  end");;
+  ``` 
+  => 167731333 
+
 
