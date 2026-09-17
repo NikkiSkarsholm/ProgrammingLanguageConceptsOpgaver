@@ -33,13 +33,16 @@ let rec lookup env x =
 
 (* A type is int, bool or function *)
 
+(*5.7*)
 type typ =
   | TypI                                (* int                         *)
   | TypB                                (* bool                        *)
   | TypF of typ * typ                   (* (argumenttype, resulttype)  *)
+  | TypL of typ                         (*List, element type is typ*)
 
 (* New abstract syntax with explicit types, instead of Absyn.expr: *)
 
+(*5.7*)
 type tyexpr = 
   | CstI of int
   | CstB of bool
@@ -50,6 +53,8 @@ type tyexpr =
   | Letfun of string * string * typ * tyexpr * typ * tyexpr
           (* (f,       x,       xTyp, fBody,  rTyp, letBody *)
   | Call of tyexpr * tyexpr
+  | List of tyexpr list
+
 
 (* A runtime value is an integer or a function closure *)
 
@@ -57,6 +62,7 @@ type value =
   | Int of int
   | Closure of string * string * tyexpr * value env       (* (f, x, fBody, fDeclEnv) *)
 
+(*5.7*)
 let rec eval (e : tyexpr) (env : value env) : int =
     match e with
     | CstI i -> i
@@ -94,9 +100,10 @@ let rec eval (e : tyexpr) (env : value env) : int =
         eval fBody fBodyEnv
       | _ -> failwith "eval Call: not a function"
     | Call _ -> failwith "illegal function in Call"
+    | List _ -> failwith "cannot evaluate list"
 
 (* Type checking for the first-order functional language: *)
-
+(*5.7*)
 let rec typ (e : tyexpr) (env : typ env) : typ =
     match e with
     | CstI i -> TypI
@@ -137,6 +144,15 @@ let rec typ (e : tyexpr) (env : typ env) : typ =
         if typ eArg env = xTyp then rTyp
         else failwith "Call: wrong argument type"
       | _ -> failwith "Call: unknown function"
+    | List (head :: tail) ->                        (*5.7*)
+      let headType = typ head env
+      List.fold (fun acc element ->
+        if (typ element env) = acc
+        then acc
+        else failwith "List: contains multiple types"
+        ) headType tail |>
+      TypL
+    | List [] -> failwith "List: cannot evaluate type of empty list"
     | Call(_, eArg) -> failwith "Call: illegal function in call"
 
 let typeCheck e = typ e [];;
