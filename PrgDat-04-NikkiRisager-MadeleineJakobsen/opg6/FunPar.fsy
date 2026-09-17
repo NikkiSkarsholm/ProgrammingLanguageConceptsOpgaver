@@ -16,6 +16,8 @@
 %token EQ NE GT LT GE LE
 %token LPAR RPAR 
 %token EOF
+%token FUN              /*6.3*/
+%token ARROW            /*6.3*/
 
 %left ELSE              /* lowest precedence  */
 %left EQ NE 
@@ -50,6 +52,7 @@ Expr:
   | Expr LT    Expr                     { Prim("<",  $1, $3)     }
   | Expr GE    Expr                     { Prim(">=", $1, $3)     }
   | Expr LE    Expr                     { Prim("<=", $1, $3)     }
+  | FUN NAME ARROW Expr                 { Fun($2, $4)            } /*6.3*/
 ;
 
 AtExpr:

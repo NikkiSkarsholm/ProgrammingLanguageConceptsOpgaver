@@ -26,12 +26,13 @@ let rec lookup env x =
     | (y, v)::r -> if x=y then v else lookup r x;;
 
 (* A runtime value is an integer or a function closure *)
-
+(*6.2*)
 type value = 
   | Int of int
   | Closure of string * string * expr * value env       (* (f, x, fBody, fDeclEnv) *)
   | Clos of string * expr * value env
 
+(*6.2*)
 let rec eval (e : expr) (env : value env) : value =
     match e with
     | CstI i -> Int i
@@ -66,6 +67,10 @@ let rec eval (e : expr) (env : value env) : value =
         let xVal = eval eArg env
         let fBodyEnv = (x, xVal) :: (f, fClosure) :: fDeclEnv
         in eval fBody fBodyEnv
+      | Clos (x, fBody, fDeclEnv) ->
+        let xVal = eval eArg env 
+        let fBodyEnv = (x, xVal) :: fDeclEnv
+        eval fBody fBodyEnv
       | _ -> failwith "eval Call: not a function"
     | Fun (arg, exp) -> 
         Clos(arg, exp, env)
