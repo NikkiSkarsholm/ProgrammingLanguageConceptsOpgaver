@@ -1,5 +1,5 @@
 **Exercise 6.5**
-
+I
 - let f x = 1 in f f end
 
 This has the type : int
@@ -28,4 +28,19 @@ This fails, as the functions type cannot determine the return type of g, this is
   in f true end
 
 This has the type : bool
+
+II
+
+bool -> bool :  
+    let f x = x = false in f end
+
+int -> int :     
+    let f x = x + 1 in f end
+
+int -> int -> int : 
+    let f x = let g y = y + x in g end in f end
+
+
+
+
 
