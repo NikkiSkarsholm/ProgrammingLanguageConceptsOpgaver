@@ -90,3 +90,27 @@ in f end
 
 `'a` : 
     not done yet
+
+
+**7.1**
+``` fsharp
+Prog
+    [Fundec
+        (None, "main", [(TypI, "n")],
+            Block
+                [Stmt
+                    (While
+                        (Prim2 (">", Access (AccVar "n"), CstI 0),
+                            Block
+                                [Stmt (Expr (Prim1 ("printi", Access (AccVar "n"))));
+                                    Stmt
+                                        (Expr
+                                            (Assign
+                                                (AccVar "n",
+                                                    Prim2 ("-", Access (AccVar "n"), CstI 1))))]));
+                                Stmt (Expr (Prim1 ("println", CstI 10)))])]
+```
+A main that take an argument n
+A while loop for which the condition is that n is bigger than 0.
+In the while loop, we print n and decrement n by one.
+Last, we print a new line.
