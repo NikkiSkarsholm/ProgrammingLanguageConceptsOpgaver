@@ -1,5 +1,6 @@
 **Exercise 6.5**
-I
+
+**I**
 - let f x = 1 in f f end
 
 This has the type : int
@@ -29,18 +30,63 @@ This fails, as the functions type cannot determine the return type of g, this is
 
 This has the type : bool
 
-II
+**II**
 
-bool -> bool :  
-    let f x = x = false in f end
+`bool -> bool` :  
+``` javascript
+let f x = 
+    x = false 
+in f end
+```
 
-int -> int :     
-    let f x = x + 1 in f end
+`int -> int` :   
+``` javascript
+let f x = 
+    x + 1 
+in f end
+```
 
-int -> int -> int : 
-    let f x = let g y = y + x in g end in f end
+`int -> int -> int` :     
+``` javascript
+let f x = 
+    let g y = 
+        y + x 
+    in g end 
+in f end
+``` 
+`'a -> 'b -> 'a` : 
+``` javascript
+let f a =
+    let g b =
+        let x = b
+        in a end
+    in g end
+in f end
+```
+`'a -> 'b -> 'b` : 
+``` javascript
+let f a =
+    let g b =
+        let x = a
+        in b end
+    in g end
+in f end
+```
 
+`('a -> 'b) -> ('b -> 'c) -> ('a -> 'c)` :    
 
+``` javascript
+let f a =
+    let g b =
+        let h x =
+            b (a x)
+        in h end
+    in g end
+in f end
+```
 
+`'a -> 'b` : 
+    not done yet
 
-
+`'a` : 
+    not done yet
