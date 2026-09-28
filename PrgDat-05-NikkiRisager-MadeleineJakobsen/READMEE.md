@@ -86,7 +86,18 @@ in f end
 ```
 
 `'a -> 'b` : 
-    not done yet
+``` javascript
+let f x = 
+  f x
+  in f 
+end
+```
+   
 
 `'a` : 
-    not done yet
+``` javascript
+let f x = 
+  f x
+  in f 0
+end
+```
