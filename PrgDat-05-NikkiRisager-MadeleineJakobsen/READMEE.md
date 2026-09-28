@@ -140,3 +140,6 @@ Then we wil try to update an index which is not defined.
 In other languages we would receive an index out of bunds error, however those do not exist in microc. 
 Therefor we might get unexpected behavior.
 
+**Exercise 7.3**
+
+We have included the lexer and parser specifications where you can se our changes. You can also find the updated programs in 7.3CPrograms.
