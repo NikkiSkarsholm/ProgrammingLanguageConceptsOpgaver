@@ -128,3 +128,15 @@ A main that take an argument n
 A while loop for which the condition is that n is bigger than 0.
 In the while loop, we print n and decrement n by one.
 Last, we print a new line.
+
+**Exercise 7.2**
+
+The files for this Exercise is in the folder 7.2CPrograms
+
+For the extra question in 7.2 III:
+
+If the freq array's length is smaller or eqaual the biggest number in arr. 
+Then we wil try to update an index which is not defined. 
+In other languages we would receive an index out of bunds error, however those do not exist in microc. 
+Therefor we might get unexpected behavior.
+
