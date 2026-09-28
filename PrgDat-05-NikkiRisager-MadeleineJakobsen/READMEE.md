@@ -103,7 +103,7 @@ end
 ```
 
 
-**7.1**
+**Exercise 7.1**
 ``` fsharp
 Prog
     [Fundec
