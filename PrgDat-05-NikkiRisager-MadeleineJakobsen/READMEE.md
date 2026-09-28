@@ -1,3 +1,6 @@
+**Exercise 6.4**
+The type trees can be found in the pdf "TypeTree6.4.pdf".
+
 **Exercise 6.5**
 
 **I**
