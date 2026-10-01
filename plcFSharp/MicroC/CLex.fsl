@@ -79,6 +79,8 @@ rule Token = parse
   | "/*"            { Comment lexbuf; Token lexbuf }
   | '"'             { CSTSTRING (String [] lexbuf) }
   | eof             { EOF }
+  | "++"            { PREINC } (* Exercise 7.5 *)
+  | "--"            { PREDEC } (* Exercise 7.5 *)
   | _               { failwith "Lexer error: illegal symbol" }
 
 and Comment = parse
