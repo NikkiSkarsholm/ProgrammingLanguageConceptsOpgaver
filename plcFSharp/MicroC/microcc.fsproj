@@ -18,6 +18,7 @@
     <Compile Include="Parse.fs" />
     <Compile Include="Machine.fs" />
     <Compile Include="Comp.fs" />
+    <Compile Include="Interp.fs"/>
     <!-- <Compile Include="Contcomp.fs" /> -->
     <Compile Include="MicroCC.fs" />    
   </ItemGroup>
