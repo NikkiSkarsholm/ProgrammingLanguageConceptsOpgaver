@@ -49,6 +49,70 @@ Label "L3"; GETBP;      | i < n
             INCSP -1;
             RET 0]
 ```
+```fsharp
+[
+ LDARGS 1;
+ CALL (1, "L1");
+ STOP;
+ 
+ Label "L1";
+    INCSP 1;
+    GETBP;     //r = n
+    CSTI 1;   |  
+    ADD;      |
+    GETBP;    | // n
+    CSTI 0;   |
+    ADD;      |
+    LDI;      | 
+    STI;      |
+    INCSP -1; |
+    INCSP 1;  |
+    GETBP;    | // n
+    CSTI 0;   |
+    ADD;      |
+    LDI;      |
+    GETBP;    | // r (in nested scope)
+    CSTI 2;   |
+    ADD;      |
+    CALL (2, "L2");   | //call function with two agruments n and nested r address
+    INCSP -1; |
+    GETBP;    | // r (nested scope)
+    CSTI 2;   |
+    ADD;      |
+    LDI;      |
+    PRINTI;   | // print the nested r
+    INCSP -1; |
+    INCSP -1; |
+    GETBP;    | // r
+    CSTI 1;   |
+    ADD;      |
+    LDI;      |
+    PRINTI;   | // print r
+    INCSP -1; |
+    INCSP -1; |
+    RET 0;
+
+Label "L2"; // square function
+    GETBP;  | // *rp
+    CSTI 1; |
+    ADD;    |
+    LDI;    |
+    GETBP;  | // n
+    CSTI 0; |
+    ADD;    |
+    LDI;    |
+    GETBP;  | // n
+    CSTI 0; |
+    ADD;    |
+    LDI;    |
+    MUL;    | // n * n
+    STI;    |
+    INCSP -1;   |
+    INCSP 0;    |
+    RET 1   |
+]
+```
+
 
 **Exercise 8.4**
 
