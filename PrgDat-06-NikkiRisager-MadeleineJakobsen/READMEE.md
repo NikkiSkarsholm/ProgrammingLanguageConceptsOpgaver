@@ -1,7 +1,7 @@
 ﻿
 **Exercise 8.1**
-We did not understand this exercise. Here is something :D
-formatted bytecode for ex03.out
+
+here is formatted bytecode for 0x03.out
 ```fsharp
 [
 LDARGS 1;               void main(int n)
@@ -49,6 +49,7 @@ Label "L3"; GETBP;      | i < n
             INCSP -1;
             RET 0]
 ```
+Symbolic bytecode for ex05.out:
 ```fsharp
 [
  LDARGS 1;
@@ -71,7 +72,7 @@ Label "L3"; GETBP;      | i < n
     CSTI 0;   |
     ADD;      |
     LDI;      |
-    GETBP;    | // r (in nested scope)
+    GETBP;    | // r (in nested scope) the nested variable r get's treated as a seperate variable
     CSTI 2;   |
     ADD;      |
     CALL (2, "L2");   | //call function with two agruments n and nested r address
