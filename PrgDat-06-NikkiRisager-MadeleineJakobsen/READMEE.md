@@ -254,6 +254,10 @@ Here is the trace:
 
 ```
 
+**Exercise 8.3**
+
+We have changed the parser and lexer as in 7.5 and the abstract syntax in 7.4 and have updated the compiler.
+The programs to test the compiler is a.c and av2.c
 
 **Exercise 8.4**
 
