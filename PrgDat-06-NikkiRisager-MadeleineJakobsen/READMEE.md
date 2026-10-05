@@ -114,6 +114,146 @@ Label "L2"; // square function
 ]
 ```
 
+Here is the trace:
+```fsharp 
+[ ]{0: LDARGS}                  // loade the argument "4" onto the stack
+[ 4 ]{2: CALL 1 6}              // go to the start of main, 5 is the return address and -999 is the old bace pointer
+[ 5 -999 4 ]{6: INCSP 1}        
+[ 5 -999 4 0 ]{8: GETBP}        | i=0   // get base pointer (points to the value 4)
+[ 5 -999 4 0 2 ]{9: CSTI 1}     |       // add the offset to the stack 
+[ 5 -999 4 0 2 1 ]{11: ADD}     |       // calculate the new pointer to i
+[ 5 -999 4 0 3 ]{12: CSTI 0}    |       // add the value that the pointer sould point to on the stack 
+[ 5 -999 4 0 3 0 ]{14: STI}     |       // save that value, so the pointer points to that value
+[ 5 -999 4 0 0 ]{15: INCSP -1}          // remove unused stack element
+[ 5 -999 4 0 ]{17: GOTO 44}     |       // jumps to condition statment in while loop
+[ 5 -999 4 0 ]{44: GETBP}       | i     // get base pointer 
+[ 5 -999 4 0 2 ]{45: CSTI 1}    |       // add offset to the stack
+[ 5 -999 4 0 2 1 ]{47: ADD}     |       // calulate new pointer
+[ 5 -999 4 0 3 ]{48: LDI}       |       // get the value that the new pointer points to. in this case the value of i witch is 0
+[ 5 -999 4 0 0 ]{49: GETBP}     | n     // same as we did for i above
+[ 5 -999 4 0 0 2 ]{50: CSTI 0}  |
+[ 5 -999 4 0 0 2 0 ]{52: ADD}   |
+[ 5 -999 4 0 0 2 ]{53: LDI}     |
+[ 5 -999 4 0 0 4 ]{54: LT}      | i < n // now that the values of both i and n is on the stack, we can compare them      
+[ 5 -999 4 0 1 ]{55: IFNZRO 19}     // jumps to the body of our while statement
+[ 5 -999 4 0 ]{19: GETBP}       | i     // retrives value of i
+[ 5 -999 4 0 2 ]{20: CSTI 1}    |
+[ 5 -999 4 0 2 1 ]{22: ADD}     |
+[ 5 -999 4 0 3 ]{23: LDI}       |
+[ 5 -999 4 0 0 ]{24: PRINTI}    | print(i)  // prints the top of the stack witch is i
+0 [ 5 -999 4 0 0 ]{25: INCSP -1}| <- notice the 0 at the start of this line. that is the output for the print statement
+[ 5 -999 4 0 ]{27: GETBP}       | i // get's pointer to i
+[ 5 -999 4 0 2 ]{28: CSTI 1}    |
+[ 5 -999 4 0 2 1 ]{30: ADD}     |
+[ 5 -999 4 0 3 ]{31: GETBP}     | i // get's value of i and and it to the stack
+[ 5 -999 4 0 3 2 ]{32: CSTI 1}  |
+[ 5 -999 4 0 3 2 1 ]{34: ADD}   |
+[ 5 -999 4 0 3 3 ]{35: LDI}     |
+[ 5 -999 4 0 3 0 ]{36: CSTI 1}  | i + 1 // increment the value of i, and add the new value to the stack
+[ 5 -999 4 0 3 0 1 ]{38: ADD}   | 
+[ 5 -999 4 0 3 1 ]{39: STI}     | i = i + 1 // update the value at location 3 witch is i. thereby updating i to be equal to i+1
+[ 5 -999 4 1 1 ]{40: INCSP -1}
+[ 5 -999 4 1 ]{42: INCSP 0}
+[ 5 -999 4 1 ]{44: GETBP}       // we are now back to the statment of the while loop, so we will keep looping until the stament is false
+[ 5 -999 4 1 2 ]{45: CSTI 1}
+[ 5 -999 4 1 2 1 ]{47: ADD}
+[ 5 -999 4 1 3 ]{48: LDI}
+[ 5 -999 4 1 1 ]{49: GETBP}
+[ 5 -999 4 1 1 2 ]{50: CSTI 0}
+[ 5 -999 4 1 1 2 0 ]{52: ADD}
+[ 5 -999 4 1 1 2 ]{53: LDI}
+[ 5 -999 4 1 1 4 ]{54: LT}
+[ 5 -999 4 1 1 ]{55: IFNZRO 19}
+[ 5 -999 4 1 ]{19: GETBP}
+[ 5 -999 4 1 2 ]{20: CSTI 1}
+[ 5 -999 4 1 2 1 ]{22: ADD}
+[ 5 -999 4 1 3 ]{23: LDI}
+[ 5 -999 4 1 1 ]{24: PRINTI}        // prints 1
+1 [ 5 -999 4 1 1 ]{25: INCSP -1}    
+[ 5 -999 4 1 ]{27: GETBP}
+[ 5 -999 4 1 2 ]{28: CSTI 1}
+[ 5 -999 4 1 2 1 ]{30: ADD}
+[ 5 -999 4 1 3 ]{31: GETBP}
+[ 5 -999 4 1 3 2 ]{32: CSTI 1}
+[ 5 -999 4 1 3 2 1 ]{34: ADD}
+[ 5 -999 4 1 3 3 ]{35: LDI}
+[ 5 -999 4 1 3 1 ]{36: CSTI 1}
+[ 5 -999 4 1 3 1 1 ]{38: ADD}
+[ 5 -999 4 1 3 2 ]{39: STI}
+[ 5 -999 4 2 2 ]{40: INCSP -1}
+[ 5 -999 4 2 ]{42: INCSP 0}
+[ 5 -999 4 2 ]{44: GETBP}
+[ 5 -999 4 2 2 ]{45: CSTI 1}
+[ 5 -999 4 2 2 1 ]{47: ADD}
+[ 5 -999 4 2 3 ]{48: LDI}
+[ 5 -999 4 2 2 ]{49: GETBP}
+[ 5 -999 4 2 2 2 ]{50: CSTI 0}
+[ 5 -999 4 2 2 2 0 ]{52: ADD}
+[ 5 -999 4 2 2 2 ]{53: LDI}
+[ 5 -999 4 2 2 4 ]{54: LT}
+[ 5 -999 4 2 1 ]{55: IFNZRO 19}
+[ 5 -999 4 2 ]{19: GETBP}
+[ 5 -999 4 2 2 ]{20: CSTI 1}
+[ 5 -999 4 2 2 1 ]{22: ADD}
+[ 5 -999 4 2 3 ]{23: LDI}
+[ 5 -999 4 2 2 ]{24: PRINTI}        // prints 2
+2 [ 5 -999 4 2 2 ]{25: INCSP -1}        
+[ 5 -999 4 2 ]{27: GETBP}
+[ 5 -999 4 2 2 ]{28: CSTI 1}
+[ 5 -999 4 2 2 1 ]{30: ADD}
+[ 5 -999 4 2 3 ]{31: GETBP}
+[ 5 -999 4 2 3 2 ]{32: CSTI 1}
+[ 5 -999 4 2 3 2 1 ]{34: ADD}
+[ 5 -999 4 2 3 3 ]{35: LDI}
+[ 5 -999 4 2 3 2 ]{36: CSTI 1}
+[ 5 -999 4 2 3 2 1 ]{38: ADD}
+[ 5 -999 4 2 3 3 ]{39: STI}
+[ 5 -999 4 3 3 ]{40: INCSP -1}
+[ 5 -999 4 3 ]{42: INCSP 0}
+[ 5 -999 4 3 ]{44: GETBP}
+[ 5 -999 4 3 2 ]{45: CSTI 1}
+[ 5 -999 4 3 2 1 ]{47: ADD}
+[ 5 -999 4 3 3 ]{48: LDI}
+[ 5 -999 4 3 3 ]{49: GETBP}
+[ 5 -999 4 3 3 2 ]{50: CSTI 0}
+[ 5 -999 4 3 3 2 0 ]{52: ADD}
+[ 5 -999 4 3 3 2 ]{53: LDI}
+[ 5 -999 4 3 3 4 ]{54: LT}
+[ 5 -999 4 3 1 ]{55: IFNZRO 19}
+[ 5 -999 4 3 ]{19: GETBP}
+[ 5 -999 4 3 2 ]{20: CSTI 1}
+[ 5 -999 4 3 2 1 ]{22: ADD}
+[ 5 -999 4 3 3 ]{23: LDI}
+[ 5 -999 4 3 3 ]{24: PRINTI}        // prints 3
+3 [ 5 -999 4 3 3 ]{25: INCSP -1}
+[ 5 -999 4 3 ]{27: GETBP}
+[ 5 -999 4 3 2 ]{28: CSTI 1}
+[ 5 -999 4 3 2 1 ]{30: ADD}
+[ 5 -999 4 3 3 ]{31: GETBP}
+[ 5 -999 4 3 3 2 ]{32: CSTI 1}
+[ 5 -999 4 3 3 2 1 ]{34: ADD}
+[ 5 -999 4 3 3 3 ]{35: LDI}
+[ 5 -999 4 3 3 3 ]{36: CSTI 1}
+[ 5 -999 4 3 3 3 1 ]{38: ADD}
+[ 5 -999 4 3 3 4 ]{39: STI}
+[ 5 -999 4 4 4 ]{40: INCSP -1}
+[ 5 -999 4 4 ]{42: INCSP 0}
+[ 5 -999 4 4 ]{44: GETBP}       |    // back to the statement of the while loop again, howevet this time the statement is false
+[ 5 -999 4 4 2 ]{45: CSTI 1}    |
+[ 5 -999 4 4 2 1 ]{47: ADD}     |
+[ 5 -999 4 4 3 ]{48: LDI}       |
+[ 5 -999 4 4 4 ]{49: GETBP}     |
+[ 5 -999 4 4 4 2 ]{50: CSTI 0}  |
+[ 5 -999 4 4 4 2 0 ]{52: ADD}   |
+[ 5 -999 4 4 4 2 ]{53: LDI}     |
+[ 5 -999 4 4 4 4 ]{54: LT}      | i < n !!! false!
+[ 5 -999 4 4 0 ]{55: IFNZRO 19}     // cannot jump back to the body of the while loop as the statement was false
+[ 5 -999 4 4 ]{57: INCSP -1}
+[ 5 -999 4 ]{59: RET 0}         // return back to instruction 5
+[ 4 ]{5: STOP}                  // end program
+
+```
+
 
 **Exercise 8.4**
 
