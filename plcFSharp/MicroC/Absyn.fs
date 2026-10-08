@@ -36,6 +36,9 @@ and stmt =
   | Expr of expr                     (* Expression statement   e;   *)
   | Return of expr option            (* Return from method          *)
   | Block of stmtordec list          (* Block: grouping and scope   *)
+  | Switch of expr * case list       (* Exercise 8.6 *)
+ 
+and case = Case of int * stmt 
                                                                    
 and stmtordec =                                                    
   | Dec of typ * string              (* Local variable declaration  *)

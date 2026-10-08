@@ -20,7 +20,8 @@ let nl = CstI 10
 %token NOT SEQOR SEQAND
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
 %token EOF
-%token QUESTION COLON                                                        /*added for Exercise 8.5*/                                                              
+%token QUESTION COLON                                                       /* added for Exercise 8.5 */    
+%token SWITCH CASE                                                          /* added for Exercise 8.6 */                                                          
 
 %right ASSIGN             /* lowest precedence */
 %nonassoc PRINT
@@ -94,6 +95,10 @@ Stmt:
   | StmtU                               { $1 }
 ;
 
+caseList:                                                           /*Exercise 8.6*/
+   /* empty */                         { [] }                       /*Exercise 8.6*/
+   | CASE CSTINT COLON Block caseList   {  Case ($2, $4) :: $5  }   /*Exercise 8.6*/
+
 StmtM:  /* No unbalanced if-else */
     Expr SEMI                           { Expr($1)             }
   | RETURN SEMI                         { Return None          }
@@ -102,6 +107,7 @@ StmtM:  /* No unbalanced if-else */
   | IF LPAR Expr RPAR StmtM ELSE StmtM  { If($3, $5, $7)       }
   | WHILE LPAR Expr RPAR StmtM          { While($3, $5)        }
   | FOR LPAR Expr SEMI Expr SEMI Expr RPAR StmtM { Block [Stmt(Expr($3)); Stmt(While ($5, Block [Stmt($9); Stmt(Expr($7)) ]))]} /*7.3*/
+  | SWITCH LPAR Expr RPAR LBRACE caseList RBRACE {Switch ($3, $6)} /*Exercise 8.6*/
 ;
 
 StmtU:

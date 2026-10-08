@@ -147,6 +147,12 @@ let rec cStmt stmt (varEnv : varEnv) (funEnv : funEnv) : instr list =
       [RET (snd varEnv - 1)]
     | Return (Some e) -> 
       cExpr e varEnv funEnv @ [RET (snd varEnv)]
+    | Switch (e1, cases) -> (*Exercise 8.6 *)
+        let ifchain = List.fold (fun acc case ->
+                            match case with
+                            | Case (i, stmt) -> If (Prim2("==", CstI i, e1), stmt, acc)
+                            ) (Block []) cases
+        cStmt ifchain varEnv funEnv
 
 and cStmtOrDec stmtOrDec (varEnv : varEnv) (funEnv : funEnv) : varEnv * instr list = 
     match stmtOrDec with 
