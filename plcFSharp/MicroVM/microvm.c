@@ -504,14 +504,35 @@ void initheap() {
   freelist = &heap[0];
 }
 
+void mark(word* block)
+{
+  block[0] = Paint(block[0], 10);
+  
+  for (int i = 1; i < Length(block[0]); i ++)
+  {
+    if (!IsInt(block[i]) && block[i] != NILVALUE)
+    {
+      mark((word*)block[i]);
+    }
+  }
+}
+
 void markPhase(word s[], word sp) {
   if (!silent) printf("GC[");
   if (!silent) printf("M");
+  for (int i = 0 ; i <= sp ; i ++)
+  {
+    if (!IsInt(s[i]) && s[i] != NILVALUE) // if the element on i is a pointer and is not a nil pointer
+    {
+      mark((word*)s[i]);
+    }
+  }
 }
 
 void sweepPhase() {
   if (!silent) printf(",");
   if (!silent) printf("BS]");
+  
 }
 
 void collect(word s[], word sp) {
