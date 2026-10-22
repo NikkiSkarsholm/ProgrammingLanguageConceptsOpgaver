@@ -38,7 +38,7 @@
    The block color has this meaning:
    gg=00=White: block is dead (after mark, before sweep)
    gg=01=Grey:  block is live, children not marked (during mark)
-   gg=11=Black: block is live (after mark, before sweep)
+   gg=10=Black: block is live (after mark, before sweep)
    gg=11=Blue:  block is on the freelist or orphaned
 
    A block of length zero is an orphan; it cannot be used 
