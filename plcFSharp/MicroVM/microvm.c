@@ -529,15 +529,35 @@ void markPhase(word s[], word sp) {
   }
 }
 
+void sweepElement(word* elem){
+	int color = Color(*elem);
+	if (color == White) { // if element is dead 
+		// add element to free list
+		elem[1] = freelist[0];
+		freelist = elem;
+	}
+
+	if (color == Black){
+		elem[0] = Paint(elem[0], White);
+	}
+}
+
 void sweepPhase() {
   if (!silent) printf(",");
   if (!silent) printf("BS]");
-  
+
+	word* cur = heap;
+  	while (inHeap(cur) == 1){
+		sweepElement(cur);
+
+		int length = Length(cur[0]);
+		cur = cur + length + 1;
+	}
 }
 
 void collect(word s[], word sp) {
-  markPhase(s, sp);
-  sweepPhase();
+  //markPhase(s, sp);
+  //sweepPhase();
   heapStatistics();
   numGC++;
 }
@@ -856,6 +876,7 @@ int execcode(word p[], word s[], word iargs[], int iargc, int /* boolean */ trac
 
 // Read program from file, and execute it
 int execute(int argc, char** argv, int trace) {
+	
   int filenameidx = 1 + (trace?1:0) + (silent?1:0); // Index to filename depends on interpreter options.
   int argsidx = filenameidx+1; // Index to extra program arguments depends on interpreter options. 
   word *p = readfile(argv[filenameidx]);         // program bytecodes: int[]
