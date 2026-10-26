@@ -504,7 +504,7 @@ void initheap() {
   freelist = &heap[0];
 }
 
-void mark(word* block)
+void mark(word* block) /*Exercise 10.2 */
 {
   block[0] = Paint(block[0], 10);
   
@@ -517,7 +517,7 @@ void mark(word* block)
   }
 }
 
-void markPhase(word s[], word sp) {
+void markPhase(word s[], word sp) { /*Exercise 10.2 */
   if (!silent) printf("GC[");
   if (!silent) printf("M");
   for (int i = 0 ; i <= sp ; i ++)
@@ -529,7 +529,7 @@ void markPhase(word s[], word sp) {
   }
 }
 
-void sweepElement(word* elem){
+void sweepElement(word* elem){ /*Exercise 10.2 */
 	int color = Color(*elem);
 	if (color == White) { // if element is dead 
 		// add element to free list
@@ -542,7 +542,7 @@ void sweepElement(word* elem){
 	}
 }
 
-void sweepPhase() {
+void sweepPhase() { /*Exercise 10.2 */
   if (!silent) printf(",");
   if (!silent) printf("BS]");
 
@@ -556,8 +556,8 @@ void sweepPhase() {
 }
 
 void collect(word s[], word sp) {
-  //markPhase(s, sp);
-  //sweepPhase();
+  markPhase(s, sp);
+  sweepPhase();
   heapStatistics();
   numGC++;
 }
