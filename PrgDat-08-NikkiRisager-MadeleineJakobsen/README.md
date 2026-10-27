@@ -91,3 +91,21 @@ We also interact when we change values of a variable on the heap.
 (IV)
 
 The garbage collecter get's called when we try to allocate something but we do not successfully find free space for it.
+
+**Exercise 10.2** 
+
+We tried doing this exercise, however we had issues running the program ex30.out, both with our changes to microvm.c and without.
+Here is the stack trace and error we get in a completely fresh copy of the repository:
+```c 
+[ ]{0:CSTI 0}
+[ 0 ]{2:CSTI 481}
+[ 0 481 ]{4:<unknown> 26735331856}
+Illegal instruction 26735331856 at address 4 (109507919282880)
+Heap: 1 blocks (19999 words); of which 1 free (19999 words, largest 19999 words); 0 orphans
+
+Used 0 cpu milli-seconds
+Number of GC: 0
+```
+
+We have tried doing the exercise the best we can, however we cannot test that it works, so it's probably incorrect.
+For the same reason, we have not done exercise 10.3
