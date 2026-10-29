@@ -35,6 +35,7 @@ type expr =
   | Or  of expr * expr
   | Seq of expr * expr
   | Every of expr 
+  | Prim1 of string * expr
   | Fail;;
 
 (* Runtime values and runtime continuations *)
@@ -98,6 +99,20 @@ let rec eval (e : expr) (cont : cont) (econt : econt) =
     | Every e -> 
       eval e (fun _ -> fun econt1 -> econt1 ())
              (fun () -> cont (Int 0) econt)
+    | Prim1 (s, e) ->
+       eval e (fun v ->  fun econt1 -> 
+            match (s, v) with 
+            | ("sqr", Int v1) -> cont (Int(v1 * v1)) econt1
+            | ("even", Int v1) -> 
+                                 if v1 % 2 = 0 
+                                 then cont (Int(v1)) econt1
+                                 else econt1 ()
+            | ("multiples", Int v1) -> 
+                                  let rec loop i = 
+                                       cont (Int (v1 * i)) (fun () -> loop (i+1))
+                                  loop 1
+            | _ -> failwith "help"
+       ) econt
     | Fail -> econt ()
 
 let run e = eval e (fun v -> fun _ -> v) (fun () -> (printfn "Failed"; Int 0));
@@ -137,3 +152,16 @@ let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
 
 // every(write(4 < (1 to 10)))
 let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
+ 
+run (Every(Write(Prim("+", CstI 1,Prim("*",FromTo(1, 4), CstI 2)))))
+
+run (Every(Write(Prim("+", Prim ("*", FromTo(2,4), CstI 10), FromTo(1,2)))))
+
+run (Every(Seq(Write( Prim("<", CstI 50, Prim("*", CstI 7, FromTo(1,10))) ), Fail)))
+
+
+run (Every(Write(Prim1("sqr", FromTo(1,4)))))
+
+run (Every(Write(Prim1("even", CstI 1))))
+
+run (Every(Write(Prim1("multiples", FromTo(3,4)))))
