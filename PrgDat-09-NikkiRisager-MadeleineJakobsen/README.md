@@ -1,0 +1,10 @@
+﻿**Exercise 11.1**
+(ii)
+
+when calling the function 'lenc [2; 5; 7] (fun v -> 2*v)'
+we get the double of the length (of the list argument given), in this case the result is 6.
+
+(iii)
+The core difference between lenc and leni is that lenc uses a continuation function and leni uses an accumulator.
+This means that to get the expected output, you need to pass different arguments. For lenc you need to pass id, while for leni you need to pass 0.
+In relation to performance, leni is more efficient because it uses an int as an accumulator (constant size), while lenc uses a function to accumulate, which gets bigger on the heap on every recursion.
