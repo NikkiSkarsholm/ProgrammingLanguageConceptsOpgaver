@@ -111,7 +111,7 @@ let rec addCST i c =
     | (_, IFZERO lab :: c1) -> c1
     | (0, IFNZRO lab :: c1) -> c1
     | (_, IFNZRO lab :: c1) -> addGOTO lab c1
-
+(*Exercise 12.2*)
     | (con1, CSTI con2 :: LT :: c1) ->                 if con1 < con2 then addCST 1 c1 else addCST 0 c1
     | (con1, CSTI con2 :: SWAP :: LT :: c1) ->         if con1 > con2 then addCST 1 c1 else addCST 0 c1
     | (con1, CSTI con2 :: SWAP :: LT :: NOT :: c1) ->  if con1 <= con2 then addCST 1 c1 else addCST 0 c1
@@ -319,6 +319,10 @@ and cExpr (e : expr) (varEnv : varEnv) (funEnv : funEnv) (c : instr list) : inst
            (IFNZRO labtrue 
              :: cExpr e2 varEnv funEnv (addJump jumpend c2))
     | Call(f, es) -> callfun f es varEnv funEnv c
+    | Cond(e1, e2, e3) ->                                 (*Exercise 12.3*)
+                         let (jumpend , c1) = makeJump c
+                         let (labelelse, c2) = addLabel (cExpr e3 varEnv funEnv c1)
+                         cExpr e1 varEnv funEnv (addIFZERO labelelse (cExpr e2 varEnv funEnv (addJump jumpend c2)))
 
 (* Generate code to access variable, dereference pointer or index array: *)
 
