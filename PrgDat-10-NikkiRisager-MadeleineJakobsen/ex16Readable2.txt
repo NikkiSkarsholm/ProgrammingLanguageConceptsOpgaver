@@ -1,0 +1,3 @@
+﻿[LDARGS 1; CALL (1, "L1"); STOP; Label "L1"; GETBP; LDI; IFNZRO "L2";
+   Label "L3"; CSTI 1111; PRINTI; INCSP -1; Label "L2"; CSTI 2222; PRINTI;
+   RET 1]
