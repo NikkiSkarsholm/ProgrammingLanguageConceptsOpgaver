@@ -111,6 +111,13 @@ let rec addCST i c =
     | (_, IFZERO lab :: c1) -> c1
     | (0, IFNZRO lab :: c1) -> c1
     | (_, IFNZRO lab :: c1) -> addGOTO lab c1
+
+    | (con1, CSTI con2 :: LT :: c1) ->                 if con1 < con2 then addCST 1 c1 else addCST 0 c1
+    | (con1, CSTI con2 :: SWAP :: LT :: c1) ->         if con1 > con2 then addCST 1 c1 else addCST 0 c1
+    | (con1, CSTI con2 :: SWAP :: LT :: NOT :: c1) ->  if con1 <= con2 then addCST 1 c1 else addCST 0 c1
+    | (con1, CSTI con2 :: LT :: NOT :: c1) ->          if con1 >= con2 then addCST 1 c1 else addCST 0 c1
+    | (con1, CSTI con2 :: EQ :: NOT :: c1) ->          if con1 <> con2 then addCST 1 c1 else addCST 0 c1
+    | (con1, CSTI con2 :: EQ :: c1) ->                 if con1 = con2 then addCST 1 c1 else addCST 0 c1
     | _                     -> CSTI i :: c
 
 
