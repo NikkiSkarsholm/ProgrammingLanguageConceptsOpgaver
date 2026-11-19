@@ -7,3 +7,6 @@
 5) Here is the result using the evaluator: `Elapsed 7ms, CPU 15ms` and here is the result of running the virtual machine `0 cpu milli-seconds` (possibly to fast to register). So we can se that running using the virtual machine is much faster.
 6) With optimization the result is 53 and without optimization the result is 57. So it saves 4 instructions.
 
+
+**Exercise 13.3**
+We tried to solve this exercise. We belive we were close but did not succeed. The code can be found in absyn.fs .

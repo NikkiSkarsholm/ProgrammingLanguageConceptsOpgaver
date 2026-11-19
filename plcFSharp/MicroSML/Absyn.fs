@@ -163,7 +163,84 @@ and freevarsValdec (fvs, bvs) = function // bvs are bound variables, either glob
 // Alpha conversion is implemented as an exercise.
 // Exampels ex11.sml, ex15.sml and ex16.sml do not work without alpha
 // conversion.
-let alphaConv p : program<'a,'b> = p
+let alphaConv p : program<'a,'b> = 
+  let freshVar (x:string) = x + Util.newNum().ToString()
+
+  let lookup (v:string) env : string =
+    match List.tryFind (fun (x,_) -> x=v) env with
+      None -> failwith ("Absyn.alphaConv: Can't lookup variable " + v)
+    | Some (_,v') -> v'
+
+  let rec aExpr env e =
+    match e with
+    | Var (s, t) -> (Var (lookup s env, t), env)
+    | AndAlso (a1, a2, o) ->
+      let (a1', env') = aExpr env a1
+      let (a2', env'') = aExpr env' a2
+      (AndAlso (a1',a2', o), env'')
+    | OrElse (a1, a2, o) ->
+      let (a1', env') = aExpr env a1
+      let (a2', env'') = aExpr env' a2
+      (OrElse (a1',a2', o), env'')
+    | Seq (a1, a2, o) ->
+      let (a1', env') = aExpr env a1
+      let (a2', env'') = aExpr env' a2
+      (Seq (a1',a2', o), env'')
+    | Prim2 (s, a1, a2, o) ->
+      let (a1', env') = aExpr env a1
+      let (a2', env'') = aExpr env' a2
+      (Prim2 (s ,a1',a2', o), env'')
+    | Prim1 (s, a1, o) ->
+      let (a1', env') = aExpr env a1
+      (Prim1 (s ,a1', o), env')
+    | If (a1, a2 , a3) ->
+      let (a1', env') = aExpr env a1
+      let (a2', env'') = aExpr env' a2
+      let (a3', env''') = aExpr env'' a3
+      (If (a1', a2', a3'), env''')
+    | Fun (s, a1, o) ->
+      let (a1', env') = aExpr env a1
+      (Fun (s ,a1', o), env')
+    | Call (a1, a2, o1, o2) ->
+      let (a1', env') = aExpr env a1
+      let (a2', env'') = aExpr env' a2
+      (Call (a1',a2', o1, o2), env'')
+    | Let (valdecList, a1) ->
+      let (valdeclist', env') = aValdecs' env valdecList
+      (Let (valdeclist', aExpr env' a1 |> fst), env')
+    | Raise (a1, o) ->
+      let (a1', env') = aExpr env a1
+      (Raise (a1', o) ,env')
+    | TryWith (a1, ex, a2) ->
+      let (a1', env') = aExpr env a1
+      let (a2', env'') = aExpr env' a2
+      (TryWith (a1', ex, a2'), env'')
+    | _ -> (e, env)
+    
+  and aValdec' env = function
+    | Valdec(x,eRhs,bOpt) ->
+       let newName = freshVar x
+       (Valdec (newName, eRhs, bOpt), (x, newName) :: env)
+    | Fundecs ls ->
+      let (ls'', env'') =  List.fold (fun (ls' ,env) (name, vname, a, o) ->
+                        let newName = freshVar name
+                        let newVname = freshVar vname
+                        
+                        let (a', env') = aExpr ( env @  [(vname, newVname)] @ [(name, newName )]) a
+                        ((newName, newVname, a', o) :: ls', env')) ([], []) ls
+      (Fundecs ls'', env'' ) 
+    | Exndec a -> (Exndec a, env)
+    
+  and aValdecs' env valdecs =
+    List.fold (fun (acc, env) valdec ->
+      let (newVar, env') = aValdec' env valdec
+      (acc @ [newVar], env'))
+      ([], env) valdecs
+  and aProg' = function
+    | Prog (valdecs,body) ->
+      let (aveldecs, env) = aValdecs' [] valdecs
+      Prog (aveldecs, aExpr env body |> fst)
+  aProg' p
 
 
 
