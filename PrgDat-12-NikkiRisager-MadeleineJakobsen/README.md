@@ -28,5 +28,22 @@ The abstract syntax tree as a class hierarchy with type annotations: Added type 
 10. H <:λ void is not valid
 11. T <:λ H is not valid
 
-****
+**Exercise 1.4**
+Object <- Main
+       <- U <- V
+       <- S <- T <- H
+
+no.1 (f,Object×U×S) : Object×U×S → T
+no.2 (f,U×Object×S) : U×Object×S → S
+no.3 (f,V×Object×T) : V×Object×T → S
+no.4 (f,U×U×S) : U×U×S → S
+
+1. (f,U×Object×S) There exists a most specific signature (no.2)
+2. (f,U×U×S) There exists a most specific signature (no.4)
+3. (f,U×Object×T) There does not exist a most specific signature, as no2 and no3 are just as specific
+4. (f,V×V×H) There exists a most specific signature (no.4)
+5. (f,null×null×null) There does not exist a most specific signature, since null is more specific than all, and therefore all no. apply.
+6. (f,Object×Object×Object) There does not exist a most specific signature, as none apply
+7. (f,Object×S×U) There does not exist a most specific signature, as none apply
+
 
