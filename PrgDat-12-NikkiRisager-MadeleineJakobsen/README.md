@@ -1,6 +1,7 @@
-***Exercise 1.1***
+**Exercise 1.1**
 The output for each commands can be found in the files 'outputVerbose....md' and 'outputDebug....md'
 
+Here is a short description of our observations of the outputs:
 The program after parsing: added extra syntax like 'extends object'
 The program after return and reachability analysis: Void methods gained a return
 The class hierarchy: We could se the class hierarchy
@@ -12,3 +13,20 @@ The abstract syntax tree after parsing: We se the abstract syntax but it is stil
 The abstract syntax tree after return and reachability analysis: Added return in the abstract syntax tree
 The abstract syntax tree as a class hierarchy: Added Hierarchy markings and object class
 The abstract syntax tree as a class hierarchy with type annotations: Added type markings to int
+
+
+**Exercise 1.2**
+1. H <: T is valid
+2. U <: S is invalid
+3. Main <: Object is valid
+4. Object <: Main is not valid
+5. null <: V is valid 
+6. V <: null is not valid
+7. S <: H is not valid
+8. void <:λ void is valid
+9. int <:λ void is not valid
+10. H <:λ void is not valid
+11. T <:λ H is not valid
+
+****
+
