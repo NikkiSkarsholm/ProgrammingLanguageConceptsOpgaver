@@ -35,6 +35,7 @@ type expr =
   | Or  of expr * expr
   | Seq of expr * expr
   | Every of expr 
+  | FnGen of (unit -> int option)
   | Fail;;
 
 (* Runtime values and runtime continuations *)
@@ -55,6 +56,12 @@ let write v =
     | Str s -> printf "%s " s;;
 
 (* Expression evaluation with backtracking *)
+
+let f5Gen() =
+    let mutable i = 0
+    fun () -> if i < 5 
+                then i <- i+1; Some (i-1)
+                else None
 
 let rec eval (e : expr) (cont : cont) (econt : econt) = 
     match e with
@@ -98,6 +105,12 @@ let rec eval (e : expr) (cont : cont) (econt : econt) =
     | Every e -> 
       eval e (fun _ -> fun econt1 -> econt1 ())
              (fun () -> cont (Int 0) econt)
+    | FnGen f -> 
+        let rec loop = 
+                match f () with 
+                | Some i -> cont (Int i) (fun () -> loop ()) 
+                | None -> econt ()
+        loop ()
     | Fail -> econt ()
 
 let run e = eval e (fun v -> fun _ -> v) (fun () -> (printfn "Failed"; Int 0));
@@ -137,3 +150,6 @@ let ex8 = Write(Prim("<", CstI 4, FromTo(1, 10)));
 
 // every(write(4 < (1 to 10)))
 let ex9 = Every(Write(Prim("<", CstI 4, FromTo(1, 10))));
+
+let iconQ1 = Every(Write(Prim("+", CstI 3 ,Prim("<", CstI 6, FromTo(5,9)))))
+run iconQ1

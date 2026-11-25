@@ -35,6 +35,10 @@ type instr =
   // Stack
   | DUP                       // duplicate stack top
   | SWAP                      // swap s[sp-1] and s[sp]
+  
+  | CREATEQUEUE
+  | ENQUEUE
+  | DEQUEUE
 
   // Address, load and store  
   | LDI                       // Stack, load indirect
@@ -151,6 +155,10 @@ let code = function
   // Stack
   | DUP  -> 30
   | SWAP -> 31
+  
+  | CREATEQUEUE -> 32
+  | ENQUEUE -> 33
+  | DEQUEUE -> 34
 
   // Address, load and store  
   | LDI  -> 40

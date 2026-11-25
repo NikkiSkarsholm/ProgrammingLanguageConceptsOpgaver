@@ -169,6 +169,10 @@ int numGC=0;  // Glocal counter on number of GC.
 #define DUP 30   // duplicate stack top
 #define SWAP 31  // swap s[sp-1] and s[sp]
 
+#define CREATEQUEUE 32
+#define ENQUEUE 33
+#define DEQUEUE 34
+
 // Address, load and store
 #define LDI 40       // Stack, load indirect
 #define STI 41       // Stack, store indirect
@@ -294,6 +298,9 @@ void printInstruction(word p[], word pc) {
   case PRINTC: printf("PRINTC"); break;
   case PRINTL: printf("PRINTL"); break;
   case PRINTVAL: printf("PRINTVAL"); break;
+  case CREATEQUEUE: printf("CREATEQUEUE"); break;
+  case ENQUEUE: printf("ENQUEUE"); break;
+  case DEQUEUE: printf("DEQUEUE"); break;
   default:     printf("<unknown> %" WORD_FMT, p[pc]); break; 
   }
 }
@@ -825,6 +832,8 @@ int execcode(word p[], word s[], word iargs[], int iargc, int /* boolean */ trac
       printList(s[sp]); break;
     case PRINTVAL:
       printVal(s[sp]); break;
+    case CREATEQUEUE: 
+      
     default:
       printf("Illegal instruction %" WORD_FMT " at address %" WORD_FMT " (%" WORD_FMT ")\n", p[pc-1], pc-1, (word)&p[pc-1]);
       heapStatistics();

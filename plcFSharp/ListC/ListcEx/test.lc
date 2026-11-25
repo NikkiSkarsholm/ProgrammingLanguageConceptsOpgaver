@@ -1,0 +1,5 @@
+void main() {
+dynamic q; q = createQueue(3);
+enqueue(q,22); enqueue(q,23); enqueue(q,24);
+print dequeue(q);
+}

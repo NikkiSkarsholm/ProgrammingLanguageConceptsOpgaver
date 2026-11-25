@@ -24,8 +24,10 @@ let fromString (str : string) : program =
 let fromFile (filename : string) =
     use reader = new StreamReader(filename)
     let lexbuf = (*Lexing.*)LexBuffer<char>.FromTextReader reader
-    try 
-      CPar.Main CLex.Token lexbuf
+    try
+        let parseTree = CPar.Main CLex.Token lexbuf
+        System.Console.WriteLine(parseTree.ToString()); (* Exam, E2025 *)
+        parseTree
     with 
       | exn -> let pos = lexbuf.EndPos 
                failwithf "%s in file %s near line %d, column %d\n" 

@@ -34,7 +34,10 @@ let keyword s =
     | "setcdr"  -> SETCDR     
     | "true"    -> CSTBOOL 1
     | "void"    -> VOID 
-    | "while"   -> WHILE         
+    | "while"   -> WHILE  
+    | "createQueue" -> CREATEQUEUE
+    | "enqueue" -> ENQUEUE
+    | "dequeue" -> DEQUEUE       
     | _         -> NAME s
  
 let cEscape s = 
