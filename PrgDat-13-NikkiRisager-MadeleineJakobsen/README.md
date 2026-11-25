@@ -36,7 +36,20 @@ To create the main object and call the maian method, with the arguments, we bele
 5: HEAPCOPY 1   //initialise object fields
 7: LDARGS 0     //load arguments
 9: VCALL 1 0    //call main
+The class descriptor for class B can be found at lines: 284 to 287
+The instructions containing the functionm f of class B can be found at lines: 288 to 300
 
+288: GETBP  //get base pointer
+289: CSTI 0 // 
+291: ADD    // add 0 to stack
+292: STACKADDR  // get address from stack
+293: LDD        // load content (this) from address 
+294: CSTI 3     // add 3 to the stack
+296: HEAPADDR   // look at the index i + 1 in object 
+297: LDD        // load (i2)
+298: RET 1      // return
+300: INCSP 0
+The index in the instance object used to access field this.i2 is 3.
 
 
 
