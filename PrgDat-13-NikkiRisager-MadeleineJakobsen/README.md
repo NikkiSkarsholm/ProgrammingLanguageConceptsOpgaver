@@ -95,3 +95,75 @@ We are a little unsure of what we are being asked to do for the last question, t
 - Object o
 That makes 13 variables.
 
+
+**Exercise 2.4**
+
+This is what we quess for ex14.java:
+```
+Class Environment:
+B (L2_class_B): Object:
+    Field Enviroment with net offset 2:
+        B.x: int -> 1
+
+    vTable Enviroment with next offset 1:
+        (m, (int)) -> (0, L3_B)
+
+C (L4_class_C): B:
+    Field Enviroment with net offset 3:
+        B.x: int -> 1
+        C.x: bool -> 2
+    
+    vTable Enviroment with next offset 1:
+        (m, (int)) -> (0, L3_B)
+    
+Main (L5_class_Main): Object:
+    Field Enviroment with net offset 1:
+
+    vTable Enviroment with next offset 1:
+        (main, ()) -> (0, L_6_main)
+
+Object (L1_class_object): :
+    Field Enviroment with net offset 1:
+
+    vTable Enviroment with next offset 0:
+
+```
+
+Looks like we got the lable numbers inccorect as well at mixing up arguments and return type for methods
+
+This is what we quess for ex15.java:
+```
+Class Environment:
+Main (L2_class_Main): Object:
+    Field Enviroment with net offset 1:
+
+    vTable Enviroment with next offset 1:
+        (main, (int)) -> (0, L3_main)
+
+Node (L4_class_Node): Object:
+    Field Enviroment with net offset 4:
+        Node.next: Node -> 1
+        Node.prev: Node -> 2
+        Node.item: int -> 3
+
+    vTable Enviroment with next offset 0:
+
+LinkedList (L5_class_LinkedList): Object:
+    Field Enviroment with net offset 3:
+        LinkedList.first: Node -> 1
+        LinkedList.last: Node -> 2
+
+    vTable Enviroment with next offset 3:
+        (addLast, (int)) -> (0, L6_addLast)
+        (PrintForward, ()) -> (1, L7_PrintForward)
+        (PrintBackwards, ()) -> (2, L8_PrintBAckwords)
+
+Object (L1_class_object): :
+    Field Enviroment with net offset 1:
+
+    vTable Enviroment with next offset 0:        
+```
+
+It looks like we still did not get the lable numbers correct, and some of the classes, filds, and methods are in wrong order but we did get right argument type!
+
+The descriptor for each class just contains the classes vTable.
