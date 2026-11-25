@@ -12,6 +12,31 @@ In short form the 3 types of results are:
 - Programs with type errors in micro-Java.
 - Programs with type errors in both micro-Java and Java.
 - Programs that succeed.
-Most of the of the test with the name exXX.java return an error, as the java program did not give a result. 
+
+Most of the of the tests with the name exXX.java return an error, as the java program did not give a result. 
 
 We could not run the file ex55.java as a Java program, with Java version openJdk-27.0.1.1, as 'print' and 'println' was not recongnised, along with requiring main to be 'public static void main (string[] args)'. Changing these parts of the code allowed the file to be run. We were a little surprised, as the newer versions should have support.
+
+**Exercise 2.2**
+ex01.java :
+
+-verbose
+The purpose of class Bs label is to know where class Bs descriptor is in the program file.
+The index of B.i in instance objects of B is 2.
+74 bytecode instructions are generated.
+
+-debug
+the label used for the main method is called 'L4_main'. The index of the main method is 0.
+
+
+ex02.java :
+
+To create the main object and call the maian method, with the arguments, we beleive these lines are used:
+2: HEAPALLOC 4 1 //allocate object
+5: HEAPCOPY 1   //initialise object fields
+7: LDARGS 0     //load arguments
+9: VCALL 1 0    //call main
+
+
+
+
