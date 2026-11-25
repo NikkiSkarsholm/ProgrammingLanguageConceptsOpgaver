@@ -77,7 +77,7 @@ The class D has the methods:
 The class Main has the methods:
 - main, () offset 0
 
-There are 10 individual methods
+That makews 10 individual methods
 
 We are a little unsure of what we are being asked to do for the last question, therefore we will simply list the variables declared in the main method of class Main.
 - A a
