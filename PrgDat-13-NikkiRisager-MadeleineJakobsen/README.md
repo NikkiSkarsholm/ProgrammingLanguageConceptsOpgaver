@@ -51,5 +51,47 @@ The instructions containing the functionm f of class B can be found at lines: 28
 300: INCSP 0
 The index in the instance object used to access field this.i2 is 3.
 
+**Exercise 2.3**
 
+super.f(2) and a.f(1) share the same label 'L2_f', as they are the same function.
+
+the class A has the methods :
+- f , boolean offset 1
+- f, C offset 0
+- g, C offset 2
+
+the class B has the methods:
+- f, boolean (shared with A, so not counted again) offset 1
+- f, C (shared with A, so not counted again) offset 0
+- f, D (this overloads the methods f, C from A) offset 3
+- g, C (overwrited so this is counted) offset 2
+- g, d offset 4
+- superf, boolean offset 7
+- superf, C offset 5
+- superf, D offset 6
+
+The class C has the methods:
+
+The class D has the methods:
+
+The class Main has the methods:
+- main, () offset 0
+
+There are 10 individual methods
+
+We are a little unsure of what we are being asked to do for the last question, therefore we will simply list the variables declared in the main method of class Main.
+- A a
+- B b
+- D d
+- C c
+- C c2
+- D d2
+- C c3
+- A ba
+- C c4
+- C c5
+- C c6
+- C c7
+- Object o
+That makes 13 variables.
 
