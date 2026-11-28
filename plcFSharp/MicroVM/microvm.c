@@ -832,8 +832,31 @@ int execcode(word p[], word s[], word iargs[], int iargc, int /* boolean */ trac
       printList(s[sp]); break;
     case PRINTVAL:
       printVal(s[sp]); break;
-    case CREATEQUEUE: 
-      
+    case CREATEQUEUE: {
+	      word N = Untag(s[sp]);
+	      word* p = allocate(CONSTAG, N+3, s, sp); // make size N + 3 for size, first and last marker
+        p[1] = Tag(N);
+        p[2] = Tag(0);
+        p[3] = Tag(0);
+        s[sp] = (word) p;
+    } break;
+    case ENQUEUE: {
+      word* p = (word *) s[sp- 1];
+      word v = Untag(s[sp]);
+      word N = Untag(p[1]);
+      word last = Untag(p[3]);
+      p[last + 4] = Tag(v);
+      p[3] = Tag((last + 1) % N);
+      sp--;
+    } break;
+    case DEQUEUE: {
+      word* p = (word *) s[sp];
+      word N = Untag(p[1]);
+      word first = Untag(p[2]);
+      s[sp] = p[first + 4]; // value is already taged
+      p[2] = Tag((first + 1) % N);
+    } break;
+
     default:
       printf("Illegal instruction %" WORD_FMT " at address %" WORD_FMT " (%" WORD_FMT ")\n", p[pc-1], pc-1, (word)&p[pc-1]);
       heapStatistics();

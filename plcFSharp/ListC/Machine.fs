@@ -277,7 +277,10 @@ let sizeInstr instr =
   | STD            -> 1
   | STACKADDR      -> 1
   | HEAPADDR       -> 1
-  | PRINTVAL       -> 1  
+  | PRINTVAL       -> 1
+  | CREATEQUEUE    -> 1
+  | DEQUEUE        -> 1
+  | ENQUEUE        -> 1
 
 let makeLabEnv (addr, labenv) instr =
   let size = sizeInstr instr      

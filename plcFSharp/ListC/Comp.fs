@@ -180,6 +180,8 @@ and cExpr (e : expr) (varEnv : varEnv) (funEnv : funEnv) : instr list =
          | "println" -> [PRINTNL]
          | "car"     -> [CAR]
          | "cdr"     -> [CDR]
+         | "createQueue" -> [CREATEQUEUE]
+         | "dequeue" -> [DEQUEUE]
          | _         -> raise (Failure "unknown primitive 1"))
     | Prim2(ope, e1, e2) ->
       cExpr e1 varEnv funEnv
@@ -199,6 +201,7 @@ and cExpr (e : expr) (varEnv : varEnv) (funEnv : funEnv) : instr list =
          | "cons"   -> [CONS]
          | "setcar" -> [SETCAR]
          | "setcdr" -> [SETCDR]
+         | "enqueue" -> [ENQUEUE]
          | _        -> raise (Failure "unknown primitive 2"))
     | Andalso(e1, e2) ->
       let labend   = newLabel()
